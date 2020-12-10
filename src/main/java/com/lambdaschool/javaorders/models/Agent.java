@@ -12,10 +12,8 @@ public class Agent
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
     private long agentcode;
 
-    @Column(unique = true, nullable = false)
     private String agentname;
 
     private String workingarea;

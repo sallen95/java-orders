@@ -25,7 +25,7 @@ public class AgentsController
     @GetMapping(value = "/agent/{agentid}", produces = "application/json")
     public ResponseEntity<?> findAgentById(@PathVariable long agentid)
     {
-        Agent agent = agentServices.findById(agentid);
+        Agent agent = agentServices.findByAgentId(agentid);
         return new ResponseEntity<>(agent, HttpStatus.OK);
     }
 

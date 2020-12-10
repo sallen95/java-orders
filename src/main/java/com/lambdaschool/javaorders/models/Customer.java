@@ -12,10 +12,9 @@ public class Customer
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
     private long custcode;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String custname;
 
     private String custcity;
@@ -28,12 +27,26 @@ public class Customer
     private double outstandingamt;
     private String phone;
 
+    @Transient
+    public boolean hasValueForOpeningAmt = false;
+
+    @Transient
+    public boolean hasValueForReceiveAmt = false;
+
+    @Transient
+    public boolean hasValueForPaymentAmt = false;
+
+    @Transient
+    public boolean hasValueForOutstandingAmt = false;
+
     @ManyToOne
     @JoinColumn(name = "agentcode", nullable = false)
     @JsonIgnoreProperties(value = "customers", allowSetters = true)
-    private Agent agentcode;
+    private Agent agent;
 
-    @OneToMany(mappedBy = "customers", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = "customer", allowSetters = true)
     private List<Order> orders = new ArrayList<>();
 
     public Customer()
@@ -51,7 +64,7 @@ public class Customer
         double paymentamt,
         double outstandingamt,
         String phone,
-        Agent agentcode)
+        Agent agent)
     {
         this.custname = custname;
         this.custcity = custcity;
@@ -63,7 +76,7 @@ public class Customer
         this.paymentamt = paymentamt;
         this.outstandingamt = outstandingamt;
         this.phone = phone;
-        this.agentcode = agentcode;
+        this.agent = agent;
     }
 
     public long getCustcode()
@@ -133,6 +146,7 @@ public class Customer
 
     public void setOpeningamt(double openingamt)
     {
+        hasValueForOpeningAmt = true;
         this.openingamt = openingamt;
     }
 
@@ -143,6 +157,7 @@ public class Customer
 
     public void setReceiveamt(double receiveamt)
     {
+        hasValueForReceiveAmt = true;
         this.receiveamt = receiveamt;
     }
 
@@ -153,6 +168,7 @@ public class Customer
 
     public void setPaymentamt(double paymentamt)
     {
+        hasValueForPaymentAmt = true;
         this.paymentamt = paymentamt;
     }
 
@@ -163,6 +179,7 @@ public class Customer
 
     public void setOutstandingamt(double outstandingamt)
     {
+        hasValueForOutstandingAmt = true;
         this.outstandingamt = outstandingamt;
     }
 
@@ -176,14 +193,14 @@ public class Customer
         this.phone = phone;
     }
 
-    public Agent getAgentcode()
+    public Agent getAgent()
     {
-        return agentcode;
+        return agent;
     }
 
-    public void setAgentcode(Agent agentcode)
+    public void setAgent(Agent agent)
     {
-        this.agentcode = agentcode;
+        this.agent = agent;
     }
 
     public List<Order> getOrders()

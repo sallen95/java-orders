@@ -4,5 +4,9 @@ import com.lambdaschool.javaorders.models.Order;
 
 public interface OrderServices
 {
-    Order findById(long id);
+    Order findByOrderId(long id);
+
+    Order save(Order order);
+
+    void delete(long id);
 }

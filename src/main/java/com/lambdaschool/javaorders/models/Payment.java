@@ -12,10 +12,9 @@ public class Payment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
     private long paymentid;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String type;
 
     @ManyToMany(mappedBy = "payments")
